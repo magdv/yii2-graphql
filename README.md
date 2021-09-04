@@ -2,18 +2,16 @@ yii2-graphql
 ==========
 Using [GraphQL](https://graphql.org/) PHP server implementation. Extends [graphql-php](https://github.com/webonyx/graphql-php) to apply to [Yii2](https://yiiframework.com).
 
-## How to Use (Advanced Template)
 
-### Install
+## Guide (For Yii Basic Template)
 
-Using [composer](https://getcomposer.org/)
-```
-composer require tsingsun/yii2-graphql
-```
+Same as for Yii Advanced Template, but 
+- instead of the `backend` namespace, it's `app` 
+    - eg the namespace should be `namespace app\modules\graphql\...`
+- Instead of `main.php`, it's `web.php` eg `
+    - eg the config is in `config/web.php`
 
-### Enable [Yii JsonParser](https://www.yiiframework.com/doc/api/2.0/yii-web-jsonparser)
-
-## How to Use (Advanced Template)
+## Guide (For Yii Advanced Template)
 
 ### Install
 
