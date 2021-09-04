@@ -1,5 +1,5 @@
 {
-    "name":"tsingsun/yii2-graphql",
+    "name":"plato-solutions/yii2-graphql",
     "description":"graphql server side for yii2 php framework",
     "keyword":["yii2","graphql"],    
     "type":"yii2-extension",
