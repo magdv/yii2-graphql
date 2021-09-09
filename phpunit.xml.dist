@@ -11,11 +11,9 @@
             <directory>./tests</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist>
+    <coverage>
+        <include>
             <directory suffix=".php">framework/</directory>
-        </whitelist>
-        <blacklist>
-        </blacklist>
-    </filter>
+        </include>
+    </coverage>
 </phpunit>

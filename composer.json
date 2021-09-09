@@ -13,17 +13,19 @@
     "minimum-stability":"dev",
     "require":{
         "php": ">=7.4.0",
-        "yiisoft/yii2":"~2.0.10",
+        "yiisoft/yii2":"^2.0.",
         "webonyx/graphql-php": "^14.6.2",
-        "ecodev/graphql-upload": "^4.0.0",
-        "zendframework/zend-diactoros": "^2.1"
+        "ecodev/graphql-upload": "^6.1.0",
+        "zendframework/zend-diactoros": "^2.1",
+        "phpunit/php-code-coverage": "9.2.x-dev"
     },
     "require-dev":{
-        "phpunit/phpunit": "4.8.*"
+        "phpunit/phpunit": "^9"
     },
     "autoload":{
         "psr-4":{
-            "yii\\graphql\\":"src"
+            "yii\\graphql\\":"src",
+            "yiiunit\\extensions\\graphql\\":"tests"
         }
     },
     "archive": {

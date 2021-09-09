@@ -5,7 +5,7 @@ use GraphQL\Error\Error;
 use GraphQL\Language\AST\Node;
 use GraphQL\Language\AST\StringValueNode;
 use GraphQL\Type\Definition\ScalarType;
-use GraphQL\Utils;
+use GraphQL\Utils\Utils;
 
 class UrlType extends ScalarType
 {
@@ -49,11 +49,11 @@ class UrlType extends ScalarType
     /**
      * Parses an externally provided literal value to use as an input (e.g. in Query AST)
      *
-     * @param $ast Node
+     * @param $ast GraphQL\Language\AST\Node
      * @return null|string
      * @throws Error
      */
-    public function parseLiteral($ast)
+    public function parseLiteral(\GraphQL\Language\AST\Node $ast, ?array $variables = NULL)
     {
         // Note: throwing GraphQL\Error\Error vs \UnexpectedValueException to benefit from GraphQL
         // error location in query:

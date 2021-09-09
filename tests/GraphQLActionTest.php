@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tsingsun
- * Date: 2017/5/18
- * Time: 下午5:53
- */
 
 namespace yiiunit\extensions\graphql;
 
@@ -20,7 +14,7 @@ class GraphQLActionTest extends TestCase
      */
     private $controller;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->mockWebApplication();
@@ -59,7 +53,7 @@ class GraphQLActionTest extends TestCase
         ];
         $controller = $this->controller;
         $controller->attachBehavior('authenticator', [
-            'class' => QueryParamAuth::className()
+            'class' => QueryParamAuth::class
         ]);
         $ret = $controller->runAction('index');
         $this->assertNotEmpty($ret);
@@ -72,9 +66,9 @@ class GraphQLActionTest extends TestCase
         ];
         $controller = $this->controller;
         $controller->attachBehavior('authenticator', [
-            'class' => CompositeAuth::className(),
+            'class' => CompositeAuth::class,
             'authMethods' => [
-                \yii\filters\auth\QueryParamAuth::className(),
+                \yii\filters\auth\QueryParamAuth::class,
             ],
             'except' => ['hello'],
         ]);
@@ -89,9 +83,9 @@ class GraphQLActionTest extends TestCase
         ];
         $controller = $this->controller;
         $controller->attachBehavior('authenticator', [
-            'class' => CompositeAuth::className(),
+            'class' => CompositeAuth::class,
             'authMethods' => [
-                \yii\filters\auth\QueryParamAuth::className(),
+                \yii\filters\auth\QueryParamAuth::class,
             ],
             'except' => ['__schema'],
         ]);

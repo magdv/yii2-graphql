@@ -1,5 +1,4 @@
 <?php
-
 namespace yiiunit\extensions\graphql;
 
 use GraphQL\Type\Schema;
@@ -19,7 +18,7 @@ use yiiunit\extensions\graphql\objects\query\ViewerQuery;
 use yiiunit\extensions\graphql\objects\types\ExampleType;
 use yiiunit\extensions\graphql\objects\types\StoryType;
 
-abstract class TestCase extends \PHPUnit_Framework_TestCase
+abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
     protected $queries;
     protected $data;
@@ -29,7 +28,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      * Clean up after test.
      * By default the application created with [[mockApplication]] will be destroyed.
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
         $this->destroyApplication();
@@ -90,8 +89,8 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
                             'viewer' => ViewerQuery::class,
                             'stories' => StoryListQuery::class,
                             'lastStoryPosted' => LastStoryPostedQuery::class,
-                            'search' => SearchQuery::className(),
-                            'node' => NodeQuery::className(),
+                            'search' => SearchQuery::class,
+                            'node' => NodeQuery::class,
                         ],
                         'mutation' => [
                             'updateUserPwd' => UpdateUserPwdMutation::class
@@ -139,7 +138,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         return $result;
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->queries = include(__DIR__ . '/objects/queries.php');

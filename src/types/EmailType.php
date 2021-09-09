@@ -4,7 +4,7 @@ namespace yii\graphql\types;
 use GraphQL\Error\Error;
 use GraphQL\Language\AST\StringValueNode;
 use GraphQL\Type\Definition\CustomScalarType;
-use GraphQL\Utils;
+use GraphQL\Utils\Utils;
 
 class EmailType extends CustomScalarType
 {
@@ -57,7 +57,7 @@ class EmailType extends CustomScalarType
      * @return string
      * @throws Error
      */
-    public function parseLiteral($valueAST)
+    public function parseLiteral(\GraphQL\Language\AST\Node $valueAST, ?array $variables = NULL)
     {
         // Note: throwing GraphQL\Error\Error vs \UnexpectedValueException to benefit from GraphQL
         // error location in query:

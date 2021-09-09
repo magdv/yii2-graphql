@@ -143,7 +143,7 @@ function behaviors()
         'authenticator'=>[
             'class'=>'yii\graphql\filter\auth\CompositeAuth',
             'authMethods'=>[
-                \yii\filters\auth\QueryParamAuth::className(),
+                \yii\filters\auth\QueryParamAuth::class,
             ],
             'except'=>['hello']
         ],

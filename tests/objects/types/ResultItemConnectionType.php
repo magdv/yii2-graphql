@@ -22,7 +22,7 @@ class ResultItemConnectionType extends GraphQLType
     public function fields()
     {
         return [
-            'nodes' => Type::listOf(GraphQL::type(ResultItemType::className())),
+            'nodes' => Type::listOf(GraphQL::type(ResultItemType::class)),
         ];
     }
 }
