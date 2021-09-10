@@ -1,6 +1,6 @@
 yii2-graphql
 ==========
-Using [GraphQL](https://graphql.org/) PHP server implementation. Extends [graphql-php](https://github.com/webonyx/graphql-php) to apply to [Yii2](https://yiiframework.com).
+Using [GraphQL](https://graphql.org/) PHP server implementation. A fork of [yii2-graphql](https://github.com/tsingsun/yii2-graphql) which extends [graphql-php](https://github.com/webonyx/graphql-php) to apply to [Yii2](https://yiiframework.com).
 
 
 ## Guide (For Yii Basic Template)
@@ -17,7 +17,7 @@ Same as for Yii Advanced Template, but
 
 Using [composer](https://getcomposer.org/)
 ```
-composer require tsingsun/yii2-graphql
+composer require Plato-solutions/yii2-graphql
 ```
 
 ### Enable [Yii JsonParser](https://www.yiiframework.com/doc/api/2.0/yii-web-jsonparser)
@@ -63,7 +63,7 @@ To enable parsing for JSON requests in `backend/config/main.php`
  ]
  ```
 
-### Create a Controller
+### Create a [Controller](https://www.yiiframework.com/doc/guide/2.0/en/structure-controllers)
 1. In your `modules/graphql` folder create a `controllers` folder.
 2. Create a `DefaultController.php` file in there with the following content:
 ```php
@@ -89,7 +89,7 @@ class DefaultController extends Controller
 }
 ```
 
-### Create GraphQL Types
+### Create [GraphQL Types](https://graphql.org/learn/schema/#object-types-and-fields)
 
 For a model in folder `backend/models` like the example below,
 ```php
@@ -142,7 +142,7 @@ For a full list of the types available under Type, see Scalar Types below.
 
 
 
-### Create GraphQL Queries
+### Create [GraphQL Queries](https://graphql.org/learn/schema/#the-query-and-mutation-types) for [Models](https://www.yiiframework.com/doc/guide/2.0/en/structure-models)
 1. Create a folder in your module `modules/graphql/` and name it `queries`.
 2. Create a `CountryQuery.php` (name it after your model class, suffix with Query) the following content
 ```php
@@ -151,11 +151,11 @@ For a full list of the types available under Type, see Scalar Types below.
 namespace backend\modules\graphql\queries;
 
 use GraphQL\Type\Definition\Type;
-use yii\graphql\base\GraphQLQuery;
+use yii\graphql\queries\ModelQuery;
 use backend\modules\graphql\types\CountryType;
 use backend\models\Country;
 
-class CountryQuery extends GraphQLQuery
+class CountryQuery extends ModelQuery
 {
     public $type = CountryType::class;
 
@@ -177,7 +177,7 @@ class CountryQuery extends GraphQLQuery
 Do the above for all the models in `backend\models` you want to have queries for.
 
 
-### Set Up Schema
+### Set Up [Schema](https://graphql.org/learn/schema/)
 1. In `backend/modules/graphql/` create a php file `schema.php` with the content:
 ```php
 <?php
@@ -241,7 +241,7 @@ Element  | Type | Description
 ### Query
 
 `GraphQLQuery` and `GraphQLMutation` inherit `GraphQLField`. The element structure is consistent, and if you would like a reusable `Field`, you can inherit it.
-Each query of `Graphql` needs to correspond to a `GraphQLQuery` object
+Each query of `Graphql` needs to correspond to a `GraphQLQuery` object. `ModelQuery` inherits from `GraphQLQuery`.
 
 #### The main elements of `GraphQLField`
 
