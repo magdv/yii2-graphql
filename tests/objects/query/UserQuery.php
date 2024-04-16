@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -7,7 +8,6 @@
  */
 
 namespace yiiunit\extensions\graphql\objects\query;
-
 
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
@@ -28,8 +28,8 @@ class UserQuery extends GraphQLQuery
     public function args()
     {
         return [
-            'id'=>[
-                'type'=>Type::nonNull(Type::id())
+            'id' => [
+                'type' => Type::nonNull(Type::id())
             ],
         ];
     }
@@ -38,6 +38,4 @@ class UserQuery extends GraphQLQuery
     {
         return DataSource::findUser($args['id']);
     }
-
-
 }

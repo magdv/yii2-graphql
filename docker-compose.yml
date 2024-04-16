@@ -1,0 +1,9 @@
+services:
+  app-php-cli:
+    build:
+      context: docker
+      dockerfile: development/php-cli/Dockerfile
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/app

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -65,6 +66,7 @@ trait GraphQLModuleTrait
                 $this->graphQL->setErrorFormatter(['yii\graphql\ErrorFormatter', 'formatError']);
             }
         }
+
         return $this->graphQL;
     }
 }

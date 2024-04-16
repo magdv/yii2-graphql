@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -8,12 +9,12 @@
 
 namespace yii\graphql;
 
+use Laminas\Diactoros\ServerRequestFactory;
 use Yii;
 use yii\base\Action;
 use yii\web\Response;
 use yii\base\InvalidParamException;
 use GraphQL\Upload\UploadMiddleware;
-use Zend\Diactoros\ServerRequestFactory;
 
 /**
  * GraphQLAction implements the access method of the graph server and returns the query results in the JSON format
@@ -30,19 +31,26 @@ use Zend\Diactoros\ServerRequestFactory;
  */
 class GraphQLAction extends Action
 {
-    const INTROSPECTIONQUERY = '__schema';
+    public const INTROSPECTIONQUERY = '__schema';
+
     /**
      * @var GraphQL
      */
     private $graphQL;
+
     private $schemaArray;
+
     private $query;
+
     private $variables;
+
     private $operationName;
+
     /**
      * @var array child graphql actions
      */
-    private $authActions = [];
+    private array $authActions = [];
+
     /**
      * @var callable a PHP callable that will be called when running an action to determine
      * if the current user has the permission to execute the action. If not set, the access
@@ -56,6 +64,7 @@ class GraphQLAction extends Action
      * ```
      */
     public $checkAccess;
+
     /**
      * @var bool whether use Schema validation , and it is recommended only in the development environment
      */
@@ -75,26 +84,25 @@ class GraphQLAction extends Action
             if (empty($body)) {
                 //取原始文件当查询,这时只支持如其他方式下的query的节点的查询
                 $this->query = $request->getRawBody();
+            } elseif (!empty($body['operations'])) {
+                $serverRequest = ServerRequestFactory::fromGlobals();
+                $uploadMiddleware = new UploadMiddleware();
+                $serverRequest = $uploadMiddleware->processRequest($serverRequest);
+                $parsedBody = $serverRequest->getParsedBody();
+                $this->query = $parsedBody['query'] ?? $parsedBody;
+                $this->variables = $parsedBody['variables'] ?? [];
+                $this->operationName = $parsedBody['operationName'] ?? null;
             } else {
-                if (!empty($body['operations'])) {
-                    $serverRequest = ServerRequestFactory::fromGlobals();
-                    $uploadMiddleware = new UploadMiddleware();
-                    $serverRequest = $uploadMiddleware->processRequest($serverRequest);
-                    $parsedBody = $serverRequest->getParsedBody();
-
-                    $this->query = $parsedBody['query'] ?? $parsedBody;
-                    $this->variables = $parsedBody['variables']  ?? [];
-                    $this->operationName = $parsedBody['operationName']  ?? null;
-                } else {
-                    $this->query = $body['query'] ?? $body;
-                    $this->variables = $body['variables'] ?? [];
-                    $this->operationName = $body['operationName'] ?? null;
-                }
+                $this->query = $body['query'] ?? $body;
+                $this->variables = $body['variables'] ?? [];
+                $this->operationName = $body['operationName'] ?? null;
             }
         }
+
         if (empty($this->query)) {
             throw new InvalidParamException('invalid query,query document not found');
         }
+
         if (is_string($this->variables)) {
             $this->variables = json_decode($this->variables, true);
         }
@@ -115,11 +123,13 @@ class GraphQLAction extends Action
         if ($this->schemaArray === true) {
             return [self::INTROSPECTIONQUERY => 'true'];
         }
+
         $ret = array_merge($this->schemaArray[0], $this->schemaArray[1]);
         if (!$this->authActions) {
             //init
             $this->authActions = array_merge($this->schemaArray[0], $this->schemaArray[1]);
         }
+
         return $ret;
     }
 
@@ -139,18 +149,18 @@ class GraphQLAction extends Action
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         if ($this->authActions && $this->checkAccess) {
-            foreach ($this->authActions as $childAction => $class) {
+            foreach (array_keys($this->authActions) as $childAction) {
                 $fn = $this->checkAccess;
                 $fn($childAction);
             }
         }
+
         $schema = $this->graphQL->buildSchema($this->schemaArray === true ? null : $this->schemaArray);
         //TODO the graphql-php's valid too strict,the lazy load has can't pass when execute mutation(must has query node)
 //        if ($this->enableSchemaAssertValid) {
 //            $this->graphQL->assertValid($schema);
 //        }
         $val = $this->graphQL->execute($schema, null, Yii::$app, $this->variables, $this->operationName);
-        $result = $this->graphQL->getResult($val);
-        return $result;
+        return $this->graphQL->getResult($val);
     }
 }

@@ -18,9 +18,9 @@ use yiiunit\extensions\graphql\data\User;
  */
 class UserType extends GraphQLType
 {
-    protected $attributes = [
-        'name'=>'user',
-        'description'=>'user is user'
+    protected array $attributes = [
+        'name' => 'user',
+        'description' => 'user is user'
     ];
 
     public function interfaces()
@@ -30,8 +30,8 @@ class UserType extends GraphQLType
 
     public function fields()
     {
-        $result = [
-            'id' => ['type'=>Type::id()],
+        return [
+            'id' => ['type' => Type::id()],
             'email' => GraphQL::type(EmailType::class),
             'email2' => GraphQL::type(EmailType::class),
             'photo' => [
@@ -50,16 +50,15 @@ class UserType extends GraphQLType
             'lastStoryPosted' => GraphQL::type(StoryType::class),
             'fieldWithError' => [
                 'type' => Type::string(),
-                'resolve' => function() {
+                'resolve' => static function () {
                     throw new \Exception("This is error field");
                 }
             ]
         ];
-        return $result;
     }
 
-    public function resolvePhotoField(User $user,$args){
+    public function resolvePhotoField(User $user, $args)
+    {
         return DataSource::getUserPhoto($user->id, $args['size']);
     }
-
 }

@@ -14,7 +14,6 @@ use yii\helpers\ArrayHelper;
  */
 trait ShouldValidate
 {
-
     protected function getResolver()
     {
         $resolver = parent::getResolver();
@@ -22,11 +21,9 @@ trait ShouldValidate
             return null;
         }
 
-        return function () use ($resolver) {
-            $arguments = func_get_args();
-
+        return function (...$arguments) use ($resolver) {
             $rules = $this->rules();
-            if (sizeof($rules)) {
+            if (count($rules) !== 0) {
                 //索引1的为args参数.
                 $args = ArrayHelper::getValue($arguments, 1, []);
                 $val = DynamicModel::validateData($args, $rules);

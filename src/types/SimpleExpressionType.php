@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -17,9 +18,9 @@ use yii\graphql\base\GraphQLType;
  */
 class SimpleExpressionType extends GraphQLType
 {
-    protected $inputObject = true;
+    protected bool $inputObject = true;
 
-    private static $operatorMap = [
+    private static array $operatorMap = [
         'eq' => '=',
         'gt' => '>',
         'lt' => '<',
@@ -27,7 +28,7 @@ class SimpleExpressionType extends GraphQLType
         'lte' => '<=',
     ];
 
-    protected $attributes = [
+    protected array $attributes = [
         'name' => 'FieldCondition',
         'description' => 'simple query expression,backend parse it to prepare to query data source',
     ];
@@ -70,10 +71,11 @@ class SimpleExpressionType extends GraphQLType
                 $ret[$key] = $value;
             } elseif (is_array($value)) {
                 $opExp = key($value);
-                $op = self::$operatorMap[$opExp]??$opExp;
+                $op = self::$operatorMap[$opExp] ?? $opExp;
                 $ret[] = [$op, $key, $value[$opExp]];
             }
         }
+
         return $ret;
     }
 }

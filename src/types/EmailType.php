@@ -1,4 +1,5 @@
 <?php
+
 namespace yii\graphql\types;
 
 use GraphQL\Error\Error;
@@ -13,9 +14,9 @@ class EmailType extends CustomScalarType
         // Option #1: define scalar types using composition (see UrlType fo option #2 using inheritance)
         $config = [
             'name' => 'Email',
-            'serialize' => [$this, 'serialize'],
-            'parseValue' => [$this, 'parseValue'],
-            'parseLiteral' => [$this, 'parseLiteral'],
+            'serialize' => fn(string $value): string => $this->serialize($value),
+            'parseValue' => fn($value) => $this->parseValue($value),
+            'parseLiteral' => fn(\GraphQL\Language\AST\Node $valueAST, ?array $variables = null): string => $this->parseLiteral($valueAST, $variables),
         ];
         parent::__construct($config);
     }
@@ -47,26 +48,28 @@ class EmailType extends CustomScalarType
         if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
             throw new \UnexpectedValueException("Cannot represent value as email: " . Utils::printSafe($value));
         }
+
         return $value;
     }
 
     /**
      * Parses an externally provided literal value (hardcoded in GraphQL query) to use as an input
      *
-     * @param \GraphQL\Language\AST\Node $valueAST
      * @return string
      * @throws Error
      */
-    public function parseLiteral(\GraphQL\Language\AST\Node $valueAST, ?array $variables = NULL)
+    public function parseLiteral(\GraphQL\Language\AST\Node $valueAST, ?array $variables = null)
     {
         // Note: throwing GraphQL\Error\Error vs \UnexpectedValueException to benefit from GraphQL
         // error location in query:
         if (!$valueAST instanceof StringValueNode) {
             throw new Error('Query error: Can only parse strings got: ' . $valueAST->kind, [$valueAST]);
         }
+
         if (!filter_var($valueAST->value, FILTER_VALIDATE_EMAIL)) {
             throw new Error("Not a valid email", [$valueAST]);
         }
+
         return $valueAST->value;
     }
 }

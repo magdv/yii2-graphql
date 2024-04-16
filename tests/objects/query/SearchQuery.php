@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -7,7 +8,6 @@
  */
 
 namespace yiiunit\extensions\graphql\objects\query;
-
 
 use GraphQL\Type\Definition\EnumType;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -22,7 +22,7 @@ use yiiunit\extensions\graphql\objects\types\UserType;
 
 class SearchQuery extends GraphQLQuery
 {
-    protected $attributes = [
+    protected array $attributes = [
         'name' => 'search',
         'description' => 'search user or story',
     ];
@@ -50,6 +50,7 @@ class SearchQuery extends GraphQLQuery
         } elseif ($args['type'] == 'story') {
             $result = DataSource::findStories($args['limit'], $args['after']);
         }
+
         return ['nodes' => $result];
     }
 }

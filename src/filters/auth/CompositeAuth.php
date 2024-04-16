@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -28,7 +29,7 @@ class CompositeAuth extends \yii\filters\auth\AuthMethod
      *
      * Note that an auth method class must implement the [[\yii\filters\auth\AuthInterface]] interface.
      */
-    public $authMethods = [];
+    public array $authMethods = [];
 
 
     /**
@@ -36,7 +37,7 @@ class CompositeAuth extends \yii\filters\auth\AuthMethod
      */
     public function beforeAction($action)
     {
-        return empty($this->authMethods) ? true : parent::beforeAction($action);
+        return $this->authMethods === [] ? true : parent::beforeAction($action);
     }
 
     /**
@@ -48,7 +49,7 @@ class CompositeAuth extends \yii\filters\auth\AuthMethod
             if (!$auth instanceof AuthInterface) {
                 $this->authMethods[$i] = $auth = Yii::createObject($auth);
                 if (!$auth instanceof AuthInterface) {
-                    throw new InvalidConfigException(get_class($auth) . ' must implement yii\filters\auth\AuthInterface');
+                    throw new InvalidConfigException($auth::class . ' must implement yii\filters\auth\AuthInterface');
                 }
             }
 
@@ -77,37 +78,38 @@ class CompositeAuth extends \yii\filters\auth\AuthMethod
         if ($action instanceof GraphQLAction) {
             $maps = $action->getGraphQLActions();
 
-            if (empty($this->only)) {
+            if ($this->only === []) {
                 $onlyMatch = true;
             } else {
                 $onlyMatch = true;
-                foreach ($maps as $key => $value) {
+                foreach (array_keys($maps) as $key) {
                     foreach ($this->only as $pattern) {
                         if (fnmatch($pattern, $key)) {
                             continue 2;
                         }
                     }
+
                     $onlyMatch = false;
                     break;
                 }
             }
 
             $exceptMatch = true;
-            foreach ($maps as $key => $value) {
+            foreach (array_keys($maps) as $key) {
                 foreach ($this->except as $pattern) {
                     if (fnmatch($pattern, $key)) {
                         $action->removeGraphQlAction($key);
                         continue 2;
                     }
                 }
+
                 $exceptMatch = false;
                 break;
             }
+
             return !$exceptMatch && $onlyMatch;
         } else {
             return parent::isActive($action);
         }
     }
-
-
 }

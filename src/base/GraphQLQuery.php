@@ -1,11 +1,7 @@
 <?php
-namespace yii\graphql\base;
 
-use GraphQL\Type\Definition\ResolveInfo;
-use GraphQL\Type\Definition\Type;
-use yii\graphql\GraphQL;
+namespace yii\graphql\base;
 
 class GraphQLQuery extends GraphQLField
 {
-    
 }

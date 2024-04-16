@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -18,10 +19,8 @@ class GraphQLModel extends Model
 {
     /**
      * All of the attributes set on the container.
-     *
-     * @var array
      */
-    protected $attributes = [];
+    protected array $attributes = [];
 
     /**
      * @inheritdoc
@@ -55,7 +54,7 @@ class GraphQLModel extends Model
     public function __get($name)
     {
         $attributes = $this->getAttributes();
-        return isset($attributes[$name]) ? $attributes[$name] : null;
+        return $attributes[$name] ?? null;
     }
 
     public function __isset($name)
@@ -74,6 +73,4 @@ class GraphQLModel extends Model
     {
         unset($this->attributes[$name]);
     }
-
-
 }

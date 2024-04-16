@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -8,14 +9,13 @@
 
 namespace yiiunit\extensions\graphql\objects\types;
 
-
 use GraphQL\Type\Definition\Type;
 use yii\graphql\base\GraphQLType;
 use yii\graphql\GraphQL;
 
 class ResultItemConnectionType extends GraphQLType
 {
-    protected $attributes = [
+    protected array $attributes = [
         'name' => 'ResultItemConnection'
     ];
 

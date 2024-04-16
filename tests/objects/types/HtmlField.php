@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -8,7 +9,6 @@
 
 namespace yiiunit\extensions\graphql\objects\types;
 
-
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use yii\graphql\base\GraphQLField;
@@ -17,8 +17,8 @@ use yii\graphql\GraphQL;
 
 class HtmlField extends GraphQLField
 {
-    protected $attributes = [
-        'description'=>'a html tag',
+    protected array $attributes = [
+        'description' => 'a html tag',
     ];
 
     public function type()
@@ -37,17 +37,13 @@ class HtmlField extends GraphQLField
         ];
     }
 
-    public function resolve($root, $args,$context,ResolveInfo $info)
+    public function resolve($root, $args, $context, ResolveInfo $info)
     {
 //        $fields = $info->getFieldSelection($depth = 3);
         $html = $root->{$info->fieldName};
         $text = strip_tags($html);
 
-        if (!empty($args['maxLength'])) {
-            $safeText = mb_substr($text, 0, $args['maxLength']);
-        } else {
-            $safeText = $text;
-        }
+        $safeText = empty($args['maxLength']) ? $text : mb_substr($text, 0, $args['maxLength']);
 
         switch ($args['format']) {
             case ContentFormatEnumType::FORMAT_HTML:
@@ -63,5 +59,4 @@ class HtmlField extends GraphQLField
                 return $safeText;
         }
     }
-
 }

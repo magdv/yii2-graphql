@@ -1,4 +1,5 @@
 <?php
+
 // ensure we get report on all possible php errors
 error_reporting(-1);
 define('YII_ENABLE_ERROR_HANDLER', false);
@@ -10,8 +11,11 @@ if (is_dir(__DIR__ . '/../vendor/')) {
 } else {
     $vendorRoot = __DIR__ . '/../../..'; //this extension is part of a project vendor folder
 }
+
 require_once($vendorRoot . '/autoload.php');
 require_once($vendorRoot . '/yiisoft/yii2/Yii.php');
 Yii::setAlias('@yiiunit/extensions/graphql', __DIR__);
 Yii::setAlias('@yiiunit', __DIR__ . '/../tests');
-Yii::setAlias('@yii/graphql', dirname(__DIR__).'/src');
+Yii::setAlias('@yii/graphql', dirname(__DIR__) . '/src');
+
+ob_start();

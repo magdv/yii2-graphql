@@ -18,15 +18,19 @@ use yiiunit\extensions\graphql\data\Story;
  */
 class StoryType extends GraphQLType
 {
-    const EDIT = 'EDIT';
-    const DELETE = 'DELETE';
-    const LIKE = 'LIKE';
-    const UNLIKE = 'UNLIKE';
-    const REPLY = 'REPLY';
+    public const EDIT = 'EDIT';
 
-    protected $attributes = [
-        'name'=>'story',
-        'description'=>'it is a story'
+    public const DELETE = 'DELETE';
+
+    public const LIKE = 'LIKE';
+
+    public const UNLIKE = 'UNLIKE';
+
+    public const REPLY = 'REPLY';
+
+    protected array $attributes = [
+        'name' => 'story',
+        'description' => 'it is a story'
     ];
 
     public function interfaces()
@@ -37,10 +41,10 @@ class StoryType extends GraphQLType
     public function fields()
     {
         return [
-            'id' => ['type'=>Type::id()],
+            'id' => ['type' => Type::id()],
             'author' => GraphQL::type(UserType::class),
 //            'mentions' => Type::listOf(Types::mention()),
-            'totalCommentCount' => ['type'=>Type::int()],
+            'totalCommentCount' => ['type' => Type::int()],
             'comments' => [
                 'type' => Type::listOf(GraphQL::type(CommentType::class)),
                 'args' => [
@@ -67,19 +71,24 @@ class StoryType extends GraphQLType
             'likedBy' => [
                 'type' => Type::listOf(GraphQL::type(UserType::class)),
             ],
-            'affordances' => ['type'=>Type::listOf(new EnumType([
-                'name' => 'StoryAffordancesEnum',
-                'values' => [
-                    self::EDIT,
-                    self::DELETE,
-                    self::LIKE,
-                    self::UNLIKE,
-                    self::REPLY
-                ]
-            ]))],
-            'hasViewerLiked' => ['type'=>Type::boolean()],
+            'affordances' => ['type' => Type::listOf(
+                new EnumType(
+                    [
+                        'name' => 'StoryAffordancesEnum',
+                        'values' => [
+                            self::EDIT,
+                            self::DELETE,
+                            self::LIKE,
+                            self::UNLIKE,
+                            self::REPLY
+                        ]
+                    ]
+                )
+            )
+            ],
+            'hasViewerLiked' => ['type' => Type::boolean()],
 
-            'body'=>HtmlField::class,
+            'body' => HtmlField::class,
         ];
     }
 
@@ -98,11 +107,9 @@ class StoryType extends GraphQLType
             $affordances[] = self::EDIT;
             $affordances[] = self::DELETE;
         }
-        if ($isLiked) {
-            $affordances[] = self::UNLIKE;
-        } else {
-            $affordances[] = self::LIKE;
-        }
+
+        $affordances[] = $isLiked ? self::UNLIKE : self::LIKE;
+
         return $affordances;
     }
 

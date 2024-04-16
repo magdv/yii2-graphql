@@ -1,4 +1,5 @@
 <?php
+
 namespace yiiunit\extensions\graphql;
 
 use GraphQL\Type\Schema;
@@ -21,7 +22,9 @@ use yiiunit\extensions\graphql\objects\types\StoryType;
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
     protected $queries;
+
     protected $data;
+
     protected $config;
 
     /**
@@ -42,74 +45,84 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected function mockApplication($config = [], $appClass = '\yii\console\Application')
     {
-        new $appClass(ArrayHelper::merge([
-            'id' => 'testapp',
-            'basePath' => __DIR__,
-            'vendorPath' => dirname(__DIR__) . '/vendor',
-        ], $config));
+        new $appClass(
+            ArrayHelper::merge(
+                [
+                    'id' => 'testapp',
+                    'basePath' => __DIR__,
+                    'vendorPath' => dirname(__DIR__) . '/vendor',
+                ],
+                $config
+            )
+        );
     }
 
     protected function mockWebApplication($config = [], $appClass = '\yii\web\Application')
     {
-        new $appClass(ArrayHelper::merge([
-            'id' => 'testapp',
-            'basePath' => __DIR__,
-            'vendorPath' => dirname(__DIR__) . '/vendor',
-            'components' => [
-                'request' => [
-                    'cookieValidationKey' => 'wefJDF8sfdsfSDefwqdxj9oq',
-                    'scriptFile' => __DIR__ . '/index.php',
-                    'scriptUrl' => '/index.php',
-                ],
-                'graphQLCache' => [
-                    'class' => 'yii\caching\FileCache',
-                    'cachePath' => '@runtime/graphql',
-                    'directoryLevel' => 0,
-                ],
-                'db'=>[
-                    'class' => 'yii\db\Connection',
-                    'dsn' => 'mysql:host=localhost;dbname=test',
-                    'username' => 'root',
-                    'password' => '',
-                    'charset' => 'utf8',
-                ],
-                'user' => [
-                    'class' => 'yii\web\User',
-                    'identityClass' => 'yiiunit\extensions\graphql\data\User'
-                ],
+        new $appClass(
+            ArrayHelper::merge(
+                [
+                    'id' => 'testapp',
+                    'basePath' => __DIR__,
+                    'vendorPath' => dirname(__DIR__) . '/vendor',
+                    'components' => [
+                        'request' => [
+                            'cookieValidationKey' => 'wefJDF8sfdsfSDefwqdxj9oq',
+                            'scriptFile' => __DIR__ . '/index.php',
+                            'scriptUrl' => '/index.php',
+                        ],
+                        'graphQLCache' => [
+                            'class' => 'yii\caching\FileCache',
+                            'cachePath' => '@runtime/graphql',
+                            'directoryLevel' => 0,
+                        ],
+                        'db' => [
+                            'class' => 'yii\db\Connection',
+                            'dsn' => 'mysql:host=localhost;dbname=test',
+                            'username' => 'root',
+                            'password' => '',
+                            'charset' => 'utf8',
+                        ],
+                        'user' => [
+                            'class' => 'yii\web\User',
+                            'identityClass' => 'yiiunit\extensions\graphql\data\User'
+                        ],
 
-            ],
-            'modules' => [
-                'graphql' => [
-                    'class' => Module::class,
-                    'schema' => [
-                        'query' => [
-                            'hello' => HelloQuery::class,
-                            'user' => UserQuery::class,
-                            'viewer' => ViewerQuery::class,
-                            'stories' => StoryListQuery::class,
-                            'lastStoryPosted' => LastStoryPostedQuery::class,
-                            'search' => SearchQuery::class,
-                            'node' => NodeQuery::class,
-                        ],
-                        'mutation' => [
-                            'updateUserPwd' => UpdateUserPwdMutation::class
-                        ],
-                        'types' => [
-                            'example' => ExampleType::class,
-                            'story' => StoryType::class,
-//                            'comment' => CommentType::class,
-//                            'image' => ImageType::class,
-//                            'imageSizeEnum' => ImageSizeEnumType::class,
-//                            'ContentFormatEnum' => ContentFormatEnumType::class,
-                        ],
                     ],
-                ]
-            ],
-            'bootstrap' => [
-                'graphql'
-            ],
-        ], $config));
+                    'modules' => [
+                        'graphql' => [
+                            'class' => Module::class,
+                            'schema' => [
+                                'query' => [
+                                    'hello' => HelloQuery::class,
+                                    'user' => UserQuery::class,
+                                    'viewer' => ViewerQuery::class,
+                                    'stories' => StoryListQuery::class,
+                                    'lastStoryPosted' => LastStoryPostedQuery::class,
+                                    'search' => SearchQuery::class,
+                                    'node' => NodeQuery::class,
+                                ],
+                                'mutation' => [
+                                    'updateUserPwd' => UpdateUserPwdMutation::class
+                                ],
+                                'types' => [
+                                    'example' => ExampleType::class,
+                                    'story' => StoryType::class,
+                //                            'comment' => CommentType::class,
+                //                            'image' => ImageType::class,
+                //                            'imageSizeEnum' => ImageSizeEnumType::class,
+                //                            'ContentFormatEnum' => ContentFormatEnumType::class,
+                                ],
+                            ],
+                        ]
+                    ],
+                    'bootstrap' => [
+                        'graphql'
+                    ],
+                ],
+                $config
+            )
+        );
     }
 
     /**
@@ -130,9 +143,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected function invoke($object, $method, array $args = [])
     {
-        $classReflection = new \ReflectionClass(get_class($object));
+        $classReflection = new \ReflectionClass($object::class);
         $methodReflection = $classReflection->getMethod($method);
         $methodReflection->setAccessible(true);
+
         $result = $methodReflection->invokeArgs($object, $args);
         $methodReflection->setAccessible(false);
         return $result;
@@ -148,7 +162,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function assertGraphQLSchema($schema)
     {
-        $this->assertInstanceOf('GraphQL\Type\Schema', $schema);
+        $this->assertInstanceOf(\GraphQL\Type\Schema::class, $schema);
     }
 
     /**
@@ -165,9 +179,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $queryField = $queryFields[$key];
         $queryListType = $queryField->getType();
         $queryType = $queryListType->getWrappedType();
-        $this->assertInstanceOf('GraphQL\Type\Definition\FieldDefinition', $queryField);
-        $this->assertInstanceOf('GraphQL\Type\Definition\ListOfType', $queryListType);
-        $this->assertInstanceOf('GraphQL\Type\Definition\ObjectType', $queryType);
+        $this->assertInstanceOf(\GraphQL\Type\Definition\FieldDefinition::class, $queryField);
+        $this->assertInstanceOf(\GraphQL\Type\Definition\ListOfType::class, $queryListType);
+        $this->assertInstanceOf(\GraphQL\Type\Definition\ObjectType::class, $queryType);
     }
 
     /**
@@ -183,7 +197,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
         $mutationField = $mutationFields[$key];
         $mutationType = $mutationField->getType();
-        $this->assertInstanceOf('GraphQL\Type\Definition\FieldDefinition', $mutationField);
-        $this->assertInstanceOf('GraphQL\Type\Definition\ObjectType', $mutationType);
+        $this->assertInstanceOf(\GraphQL\Type\Definition\FieldDefinition::class, $mutationField);
+        $this->assertInstanceOf(\GraphQL\Type\Definition\ObjectType::class, $mutationType);
     }
 }

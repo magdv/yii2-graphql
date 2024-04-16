@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -8,9 +9,7 @@
 
 namespace yiiunit\extensions\graphql\objects\query;
 
-
 use GraphQL\Type\Definition\ResolveInfo;
-use GraphQL\Type\Definition\Type;
 use yii\graphql\base\GraphQLQuery;
 use yii\graphql\GraphQL;
 use yii\web\Application;
@@ -18,8 +17,8 @@ use yiiunit\extensions\graphql\objects\types\UserType;
 
 class ViewerQuery extends GraphQLQuery
 {
-    protected $attributes = [
-        'description'=>'Represents currently logged-in user (for the sake of example - simply returns user with id == 1)',
+    protected array $attributes = [
+        'description' => 'Represents currently logged-in user (for the sake of example - simply returns user with id == 1)',
     ];
 
     public function type()

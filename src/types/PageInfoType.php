@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -8,13 +9,12 @@
 
 namespace yii\graphql\types;
 
-
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 class PageInfoType extends ObjectType
 {
-    function __construct()
+    public function __construct()
     {
         $config = [
             'name' => 'PageInfo',

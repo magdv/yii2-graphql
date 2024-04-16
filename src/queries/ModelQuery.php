@@ -1,4 +1,5 @@
 <?php
+
 namespace yii\graphql\queries;
 
 use GraphQL\Type\Definition\ResolveInfo;
@@ -9,6 +10,7 @@ use yii\graphql\GraphQL;
 class ModelQuery extends GraphQLQuery
 {
     public $type;
+
     public $model;
 
     public function type()

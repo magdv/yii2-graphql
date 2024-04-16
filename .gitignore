@@ -1,5 +1,7 @@
-.DStore
-.idea
-vendor
-tests/runtime
-composer.lock
+/tests/runtime
+/.idea/
+/var/
+/vendor/
+/.php-cs-fixer.cache
+/.env
+/composer.lock

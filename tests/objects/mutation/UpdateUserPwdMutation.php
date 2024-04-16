@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -8,17 +9,15 @@
 
 namespace yiiunit\extensions\graphql\objects\mutation;
 
-
 use GraphQL\Type\Definition\Type;
 use yii\graphql\base\GraphQLMutation;
 use yii\graphql\GraphQL;
 use yiiunit\extensions\graphql\data\DataSource;
-use yiiunit\extensions\graphql\objects\models\UserModel;
 use yiiunit\extensions\graphql\objects\types\UserType;
 
 class UpdateUserPwdMutation extends GraphQLMutation
 {
-    protected $attributes = [
+    protected array $attributes = [
         'name' => 'updateUserPwd'
     ];
 
@@ -46,10 +45,10 @@ class UpdateUserPwdMutation extends GraphQLMutation
         if ($args['id'] == 'qsli@google.com') {
             $args['id'] = 1;
         }
+
         $user = DataSource::findUser($args['id']);
 
-        if(!$user)
-        {
+        if (!$user) {
             return null;
         }
 
@@ -63,5 +62,4 @@ class UpdateUserPwdMutation extends GraphQLMutation
             ['id', 'email']
         ];
     }
-
 }

@@ -9,14 +9,14 @@ use yiiunit\extensions\graphql\data\Story;
 
 class NodeType extends GraphQLInterfaceType
 {
-    protected $attributes = [
-        'name'=>'node'
+    protected array $attributes = [
+        'name' => 'node'
     ];
 
     public function fields()
     {
         return [
-            'id'=>Type::id()
+            'id' => Type::id()
         ];
     }
 
@@ -24,10 +24,11 @@ class NodeType extends GraphQLInterfaceType
     {
         if ($object instanceof UserType) {
             return GraphQL::type('user', true);
-        } else if ($object instanceof ImageType) {
+        } elseif ($object instanceof ImageType) {
             return GraphQL::type('image', true);
-        } else if ($object instanceof Story) {
+        } elseif ($object instanceof Story) {
             return GraphQL::type('story', true);
         }
+        return null;
     }
 }
