@@ -17,7 +17,7 @@ use yiiunit\extensions\graphql\objects\types\StoryType;
 
 class LastStoryPostedQuery extends GraphQLQuery
 {
-    protected $attributes = [
+    protected array $attributes = [
         'description' => 'Returns last story posted for this blog',
     ];
 

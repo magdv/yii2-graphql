@@ -41,5 +41,6 @@ class NodeQuery extends GraphQLQuery
         } elseif ($args['type'] == 'story') {
             return DataSource::findStory($args['id']);
         }
+        return null;
     }
 }

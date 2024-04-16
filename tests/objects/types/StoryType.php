@@ -18,13 +18,17 @@ use yiiunit\extensions\graphql\data\Story;
  */
 class StoryType extends GraphQLType
 {
-    const EDIT = 'EDIT';
-    const DELETE = 'DELETE';
-    const LIKE = 'LIKE';
-    const UNLIKE = 'UNLIKE';
-    const REPLY = 'REPLY';
+    public const EDIT = 'EDIT';
 
-    protected $attributes = [
+    public const DELETE = 'DELETE';
+
+    public const LIKE = 'LIKE';
+
+    public const UNLIKE = 'UNLIKE';
+
+    public const REPLY = 'REPLY';
+
+    protected array $attributes = [
         'name' => 'story',
         'description' => 'it is a story'
     ];
@@ -103,11 +107,9 @@ class StoryType extends GraphQLType
             $affordances[] = self::EDIT;
             $affordances[] = self::DELETE;
         }
-        if ($isLiked) {
-            $affordances[] = self::UNLIKE;
-        } else {
-            $affordances[] = self::LIKE;
-        }
+
+        $affordances[] = $isLiked ? self::UNLIKE : self::LIKE;
+
         return $affordances;
     }
 

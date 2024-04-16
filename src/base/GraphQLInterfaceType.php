@@ -20,10 +20,7 @@ class GraphQLInterfaceType extends GraphQLType
         }
 
         $resolver = [$this, 'resolveType'];
-        return function () use ($resolver) {
-            $args = func_get_args();
-            return $resolver(...$args);
-        };
+        return static fn(...$args) => $resolver(...$args);
     }
 
     /**

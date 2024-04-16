@@ -17,7 +17,7 @@ use yii\graphql\GraphQL;
 
 class HtmlField extends GraphQLField
 {
-    protected $attributes = [
+    protected array $attributes = [
         'description' => 'a html tag',
     ];
 
@@ -43,11 +43,7 @@ class HtmlField extends GraphQLField
         $html = $root->{$info->fieldName};
         $text = strip_tags($html);
 
-        if (!empty($args['maxLength'])) {
-            $safeText = mb_substr($text, 0, $args['maxLength']);
-        } else {
-            $safeText = $text;
-        }
+        $safeText = empty($args['maxLength']) ? $text : mb_substr($text, 0, $args['maxLength']);
 
         switch ($args['format']) {
             case ContentFormatEnumType::FORMAT_HTML:

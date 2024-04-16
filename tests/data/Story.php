@@ -14,7 +14,7 @@ class Story
 
     public $body;
 
-    public $isAnonymous = false;
+    public bool $isAnonymous = false;
 
     public function __construct(array $data)
     {

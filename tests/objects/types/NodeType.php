@@ -9,7 +9,7 @@ use yiiunit\extensions\graphql\data\Story;
 
 class NodeType extends GraphQLInterfaceType
 {
-    protected $attributes = [
+    protected array $attributes = [
         'name' => 'node'
     ];
 
@@ -29,5 +29,6 @@ class NodeType extends GraphQLInterfaceType
         } elseif ($object instanceof Story) {
             return GraphQL::type('story', true);
         }
+        return null;
     }
 }

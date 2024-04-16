@@ -38,27 +38,22 @@ class GraphQL
     /**
      * @var array query map config
      */
-    public $queries = [];
+    public array $queries = [];
+
     /**
      * @var array mutation map config
      */
-    public $mutations = [];
+    public array $mutations = [];
+
     /**
      * @var array type map config
      */
-    public $types = [];
+    public array $types = [];
 
     public $errorFormatter;
 
     private $currentDocument;
-    /**
-     * @var TypeResolution
-     */
-    private $typeResolution;
-
-    function __construct()
-    {
-    }
+    private ?\yii\graphql\TypeResolution $typeResolution = null;
 
     /**
      * get TypeResolution
@@ -69,6 +64,7 @@ class GraphQL
         if (!$this->typeResolution) {
             $this->typeResolution = new TypeResolution();
         }
+
         return $this->typeResolution;
     }
 
@@ -111,17 +107,20 @@ class GraphQL
         if ($schema instanceof Schema) {
             return $schema;
         }
+
         if ($schema === null) {
-            list($schemaQuery, $schemaMutation, $schemaTypes) = [$this->queries, $this->mutations, $this->types];
+            [$schemaQuery, $schemaMutation, $schemaTypes] = [$this->queries, $this->mutations, $this->types];
         } else {
-            list($schemaQuery, $schemaMutation, $schemaTypes) = $schema;
+            [$schemaQuery, $schemaMutation, $schemaTypes] = $schema;
         }
+
         $types = [];
-        if (sizeof($schemaTypes)) {
+        if (count($schemaTypes) !== 0) {
             foreach ($schemaTypes as $name => $type) {
                 $types[] = $this->getTypeResolution()->parseType($name, true);
             }
         }
+
         //graqhql的validator要求query必须有
         $query = $this->getTypeResolution()->objectType(
             $schemaQuery,
@@ -141,18 +140,14 @@ class GraphQL
         }
 
         $this->getTypeResolution()->initTypes([$query, $mutation], $schema == null);
-
-        $result = new Schema(
+        return new Schema(
             [
                 'query' => $query,
                 'mutation' => $mutation,
                 'types' => $types,
-                'typeLoader' => function ($name) {
-                    return $this->getTypeResolution()->parseType($name, true);
-                }
+                'typeLoader' => fn($name) => $this->getTypeResolution()->parseType($name, true)
             ]
         );
-        return $result;
     }
 
 
@@ -171,6 +166,7 @@ class GraphQL
         if ($sl === true) {
             $sl = [$this->queries, $this->mutations, $this->types];
         }
+
         $schema = $this->buildSchema($sl);
 
         $val = $this->execute($schema, $rootValue, $contextValue, $variableValues, $operationName);
@@ -187,6 +183,7 @@ class GraphQL
             if ($this->errorFormatter) {
                 $executeResult->setErrorFormatter($this->errorFormatter);
             }
+
             return $this->parseExecutionResult($executeResult);
         } elseif ($executeResult instanceof Promise) {
             return $executeResult->then(
@@ -194,6 +191,7 @@ class GraphQL
                     if ($this->errorFormatter) {
                         $executionResult->setErrorFormatter($this->errorFormatter);
                     }
+
                     return $this->parseExecutionResult($executionResult);
                 }
             );
@@ -207,6 +205,7 @@ class GraphQL
         if (empty($executeResult->errors) || empty($this->errorFormatter)) {
             return $executeResult->toArray();
         }
+
         $result = [];
 
         if (null !== $executeResult->data) {
@@ -224,6 +223,7 @@ class GraphQL
                     $result['errors'] += $fr;
                 }
             }
+
 //            $result['errors'] = array_map($executeResult->errorFormatter, $executeResult->errors);
         }
 
@@ -255,9 +255,10 @@ class GraphQL
             if (!empty($validationErrors)) {
                 return new ExecutionResult(null, $validationErrors);
             }
+
             return Executor::execute($schema, $this->currentDocument, $rootValue, $contextValue, $variableValues, $operationName);
-        } catch (Error\Error $e) {
-            return new ExecutionResult(null, [$e]);
+        } catch (Error\Error $error) {
+            return new ExecutionResult(null, [$error]);
         } finally {
             $this->currentDocument = null;
         }
@@ -287,9 +288,11 @@ class GraphQL
                                 $isAll = true;
                                 break 2;
                             }
+
                             if (isset($this->queries[$node->value])) {
                                 $queryTypes[$node->value] = $this->queries[$node->value];
                             }
+
                             if (isset($this->types[$node->value])) {
                                 $types[$node->value] = $this->types[$node->value];
                             }
@@ -302,6 +305,7 @@ class GraphQL
                 }
             }
         }
+
         return $isAll ?: [$queryTypes, $mutation, $types];
     }
 
@@ -349,7 +353,6 @@ class GraphQL
 
     /**
      * set error formatter
-     * @param Callable $errorFormatter
      */
     public function setErrorFormatter(callable $errorFormatter)
     {
@@ -366,9 +369,10 @@ class GraphQL
     public function assertValid($schema)
     {
         //the type come from the TypeResolution.
-        foreach ($this->types as $name => $type) {
+        foreach (array_keys($this->types) as $name) {
             $schema->getType($name);
         }
+
         $schema->assertValid();
     }
 }

@@ -15,7 +15,7 @@ use yii\graphql\GraphQL;
 
 class ResultItemConnectionType extends GraphQLType
 {
-    protected $attributes = [
+    protected array $attributes = [
         'name' => 'ResultItemConnection'
     ];
 

@@ -15,7 +15,7 @@ use yii\graphql\base\GraphQLQuery;
 
 class HelloQuery extends GraphQLQuery
 {
-    protected $attributes = [
+    protected array $attributes = [
         'name' => 'hello',
     ];
 

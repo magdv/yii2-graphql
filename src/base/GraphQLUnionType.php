@@ -31,14 +31,11 @@ class GraphQLUnionType extends GraphQLType
     protected function getTypeResolver()
     {
         if (!method_exists($this, 'resolveType')) {
-            throw new InvalidConfigException(get_called_class() . ' must implement resolveType method');
+            throw new InvalidConfigException(static::class . ' must implement resolveType method');
         }
 
         $resolver = [$this, 'resolveType'];
-        return function () use ($resolver) {
-            $args = func_get_args();
-            return $resolver(...$args);
-        };
+        return static fn(...$args) => $resolver(...$args);
     }
 
     /**
@@ -54,8 +51,9 @@ class GraphQLUnionType extends GraphQLType
         if (isset($resolver)) {
             $attributes['resolveType'] = $resolver;
         }
+
         $types = array_map(
-            function ($item) {
+            static function ($item) {
                 if (is_string($item)) {
                     return GraphQL::type($item);
                 } else {

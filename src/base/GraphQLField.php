@@ -38,10 +38,7 @@ class GraphQLField extends GraphQLModel
         }
 
         $resolver = [$this, 'resolve'];
-        return function () use ($resolver) {
-            $args = func_get_args();
-            return $resolver(...$args);
-        };
+        return static fn(...$args) => $resolver(...$args);
     }
 
     /**
@@ -68,6 +65,7 @@ class GraphQLField extends GraphQLModel
             if (!is_object($type)) {
                 $type = GraphQL::type($type);
             }
+
             $attributes['type'] = $type;
         }
 

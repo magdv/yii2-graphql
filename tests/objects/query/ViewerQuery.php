@@ -17,7 +17,7 @@ use yiiunit\extensions\graphql\objects\types\UserType;
 
 class ViewerQuery extends GraphQLQuery
 {
-    protected $attributes = [
+    protected array $attributes = [
         'description' => 'Represents currently logged-in user (for the sake of example - simply returns user with id == 1)',
     ];
 

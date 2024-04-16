@@ -16,7 +16,7 @@ use yiiunit\extensions\graphql\data\User;
 
 class ResultItemType extends GraphQLUnionType
 {
-    protected $attributes = [
+    protected array $attributes = [
         'name' => 'ResultItem',
         'description' => 'result type'
     ];
@@ -36,5 +36,6 @@ class ResultItemType extends GraphQLUnionType
         } elseif ($value instanceof User) {
             return GraphQL::type(UserType::class);
         }
+        return null;
     }
 }

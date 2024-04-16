@@ -11,6 +11,7 @@ if (is_dir(__DIR__ . '/../vendor/')) {
 } else {
     $vendorRoot = __DIR__ . '/../../..'; //this extension is part of a project vendor folder
 }
+
 require_once($vendorRoot . '/autoload.php');
 require_once($vendorRoot . '/yiisoft/yii2/Yii.php');
 Yii::setAlias('@yiiunit/extensions/graphql', __DIR__);

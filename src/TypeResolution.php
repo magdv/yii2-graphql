@@ -28,23 +28,17 @@ class TypeResolution
     /**
      * @var array<className,string> alias for className to map the type
      */
-    private $alias = [];
+    private array $alias = [];
+
     /**
      * @var Type[]
      */
-    private $typeMap = [];
+    private array $typeMap = [];
 
     /**
      * @var array<string, ObjectType[]>
      */
-    private $implementations = [];
-
-    /**
-     * EagerResolution constructor.
-     */
-    public function __construct()
-    {
-    }
+    private array $implementations = [];
 
     /**
      * set type config
@@ -66,13 +60,15 @@ class TypeResolution
         if ($needIntrospection) {
             $graphTypes[] = Introspection::_schema();
         }
+
         foreach ($graphTypes as $type) {
             $typeMap = Utils\TypeInfo::extractTypes($type, $typeMap);
         }
+
         $this->typeMap = $typeMap + Type::getStandardTypes();
 
         // Keep track of all possible types for abstract types
-        foreach ($this->typeMap as $typeName => $type) {
+        foreach ($this->typeMap as $type) {
             if ($type instanceof ObjectType) {
                 foreach ($type->getInterfaces() as $iface) {
                     $this->implementations[$iface->name][] = $type;
@@ -99,7 +95,7 @@ class TypeResolution
      */
     public function resolveType($name)
     {
-        return isset($this->typeMap[$name]) ? $this->typeMap[$name] : $this->parseType($name, true);
+        return $this->typeMap[$name] ?? $this->parseType($name, true);
     }
 
     /**
@@ -117,7 +113,7 @@ class TypeResolution
 
         /** @var InterfaceType $abstractType */
         Utils::invariant($abstractType instanceof InterfaceType);
-        return isset($this->implementations[$abstractType->name]) ? $this->implementations[$abstractType->name] : [];
+        return $this->implementations[$abstractType->name] ?? [];
     }
 
     /**
@@ -147,8 +143,10 @@ class TypeResolution
                     $possibleTypesMap[$type->name][$obj->name] = 1;
                 }
             }
+
             $typeMap[$type->name] = 1;
         }
+
         return [
             'version' => '1.0',
             'typeMap' => $typeMap,
@@ -174,6 +172,7 @@ class TypeResolution
                 if (property_exists($objectType, $key)) {
                     $objectType->{$key} = $value;
                 }
+
                 if (isset($objectType->config[$key])) {
                     $objectType->config[$key] = $value;
                 }
@@ -227,6 +226,7 @@ class TypeResolution
                 $name = is_numeric($name) ? $field['name'] : $name;
                 $field['name'] = $name;
             }
+
             $typeFields[$name] = $field;
         }
 
@@ -251,7 +251,7 @@ class TypeResolution
     {
         $class = $name;
         if (is_object($class)) {
-            $name = get_class($class);
+            $name = $class::class;
         }
 
         if ($byAlias && isset($this->alias[$name])) {
@@ -266,12 +266,13 @@ class TypeResolution
 
         //class is string or not found;
         if (is_string($class)) {
-            if (strpos($class, '\\') !== false && !class_exists($class)) {
+            if (str_contains($class, '\\') && !class_exists($class)) {
                 throw new TypeNotFound('Type ' . $name . ' not found.');
             }
         } elseif (!is_object($class)) {
             throw new TypeNotFound('Type ' . $name . ' not found.');
         }
+
         $type = $this->buildType($class);
         $this->alias[$type->name] = $class;
         $this->alias[$class] = $type->name;
@@ -292,6 +293,7 @@ class TypeResolution
         if (!is_object($type)) {
             $type = Yii::createObject($type);
         }
+
         if ($type instanceof Type) {
             return $type;
         } elseif ($type instanceof GraphQLType) {
@@ -302,6 +304,6 @@ class TypeResolution
             return $type;
         }
 
-        throw new NotSupportedException("Type:{$type} is not support translate to Graph Type");
+        throw new NotSupportedException(sprintf('Type:%s is not support translate to Graph Type', $type));
     }
 }

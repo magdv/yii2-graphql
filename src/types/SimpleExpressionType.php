@@ -18,9 +18,9 @@ use yii\graphql\base\GraphQLType;
  */
 class SimpleExpressionType extends GraphQLType
 {
-    protected $inputObject = true;
+    protected bool $inputObject = true;
 
-    private static $operatorMap = [
+    private static array $operatorMap = [
         'eq' => '=',
         'gt' => '>',
         'lt' => '<',
@@ -28,7 +28,7 @@ class SimpleExpressionType extends GraphQLType
         'lte' => '<=',
     ];
 
-    protected $attributes = [
+    protected array $attributes = [
         'name' => 'FieldCondition',
         'description' => 'simple query expression,backend parse it to prepare to query data source',
     ];
@@ -75,6 +75,7 @@ class SimpleExpressionType extends GraphQLType
                 $ret[] = [$op, $key, $value[$opExp]];
             }
         }
+
         return $ret;
     }
 }

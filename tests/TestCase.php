@@ -22,7 +22,9 @@ use yiiunit\extensions\graphql\objects\types\StoryType;
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
     protected $queries;
+
     protected $data;
+
     protected $config;
 
     /**
@@ -141,9 +143,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected function invoke($object, $method, array $args = [])
     {
-        $classReflection = new \ReflectionClass(get_class($object));
+        $classReflection = new \ReflectionClass($object::class);
         $methodReflection = $classReflection->getMethod($method);
         $methodReflection->setAccessible(true);
+
         $result = $methodReflection->invokeArgs($object, $args);
         $methodReflection->setAccessible(false);
         return $result;
@@ -159,7 +162,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function assertGraphQLSchema($schema)
     {
-        $this->assertInstanceOf('GraphQL\Type\Schema', $schema);
+        $this->assertInstanceOf(\GraphQL\Type\Schema::class, $schema);
     }
 
     /**
@@ -176,9 +179,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $queryField = $queryFields[$key];
         $queryListType = $queryField->getType();
         $queryType = $queryListType->getWrappedType();
-        $this->assertInstanceOf('GraphQL\Type\Definition\FieldDefinition', $queryField);
-        $this->assertInstanceOf('GraphQL\Type\Definition\ListOfType', $queryListType);
-        $this->assertInstanceOf('GraphQL\Type\Definition\ObjectType', $queryType);
+        $this->assertInstanceOf(\GraphQL\Type\Definition\FieldDefinition::class, $queryField);
+        $this->assertInstanceOf(\GraphQL\Type\Definition\ListOfType::class, $queryListType);
+        $this->assertInstanceOf(\GraphQL\Type\Definition\ObjectType::class, $queryType);
     }
 
     /**
@@ -194,7 +197,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
         $mutationField = $mutationFields[$key];
         $mutationType = $mutationField->getType();
-        $this->assertInstanceOf('GraphQL\Type\Definition\FieldDefinition', $mutationField);
-        $this->assertInstanceOf('GraphQL\Type\Definition\ObjectType', $mutationType);
+        $this->assertInstanceOf(\GraphQL\Type\Definition\FieldDefinition::class, $mutationField);
+        $this->assertInstanceOf(\GraphQL\Type\Definition\ObjectType::class, $mutationType);
     }
 }

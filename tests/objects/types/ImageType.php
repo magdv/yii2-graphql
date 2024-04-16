@@ -13,7 +13,7 @@ use yiiunit\extensions\graphql\data\Image;
 
 class ImageType extends GraphQLType
 {
-    protected $attributes = [
+    protected array $attributes = [
         'name' => 'image',
         'description' => 'a common image type'
     ];
@@ -25,7 +25,7 @@ class ImageType extends GraphQLType
 
     public function fields()
     {
-        $result = [
+        return [
             'id' => Type::id(),
             'type' => new EnumType(
                 [
@@ -40,35 +40,31 @@ class ImageType extends GraphQLType
             'height' => Type::int(),
             'url' => [
                 'type' => GraphQL::Type(UrlType::class),
-                'resolve' => [$this, 'resolveUrl']
+                'resolve' => fn(\yiiunit\extensions\graphql\data\Image $value, $args, \yii\web\Application $context) => $this->resolveUrl($value, $args, $context)
             ],
 
             // Just for the sake of example
             'fieldWithError' => [
                 'type' => Type::string(),
-                'resolve' => function () {
+                'resolve' => static function () {
                     throw new \Exception("Field with exception");
                 }
             ],
             'nonNullFieldWithError' => [
                 'type' => Type::nonNull(Type::string()),
-                'resolve' => function () {
+                'resolve' => static function () {
                     throw new \Exception("Non-null field with exception");
                 }
             ]
         ];
-        return $result;
     }
 
     public function resolveUrl(Image $value, $args, Application $context)
     {
-        switch ($value->type) {
-            case Image::TYPE_USERPIC:
-                $path = "/images/user/{$value->id}-{$value->size}.jpg";
-                break;
-            default:
-                throw new \UnexpectedValueException("Unexpected image type: " . $value->type);
-        }
+        $path = match ($value->type) {
+            Image::TYPE_USERPIC => sprintf('/images/user/%s-%s.jpg', $value->id, $value->size),
+            default => throw new \UnexpectedValueException("Unexpected image type: " . $value->type),
+        };
         return $context->getHomeUrl() . $path;
     }
 }

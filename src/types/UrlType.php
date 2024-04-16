@@ -45,6 +45,7 @@ class UrlType extends ScalarType
         if (!is_string($value) || !filter_var($value, FILTER_VALIDATE_URL)) { // quite naive, but after all this is example
             throw new UnexpectedValueException("Cannot represent value as URL: " . Utils::printSafe($value));
         }
+
         return $value;
     }
 
@@ -62,9 +63,11 @@ class UrlType extends ScalarType
         if (!($ast instanceof StringValueNode)) {
             throw new Error('Query error: Can only parse strings got: ' . $ast->kind, [$ast]);
         }
+
         if (!is_string($ast->value) || !filter_var($ast->value, FILTER_VALIDATE_URL)) {
             throw new Error('Query error: Not a valid URL', [$ast]);
         }
+
         return $ast->value;
     }
 }

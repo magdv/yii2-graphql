@@ -66,6 +66,7 @@ trait GraphQLModuleTrait
                 $this->graphQL->setErrorFormatter(['yii\graphql\ErrorFormatter', 'formatError']);
             }
         }
+
         return $this->graphQL;
     }
 }

@@ -18,7 +18,7 @@ use yiiunit\extensions\graphql\objects\types\StoryType;
 
 class StoryListQuery extends GraphQLQuery
 {
-    protected $attributes = [
+    protected array $attributes = [
         'name' => 'stories',
         'description' => 'Returns subset of stories posted for this blog',
     ];

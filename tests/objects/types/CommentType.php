@@ -10,7 +10,7 @@ use yiiunit\extensions\graphql\data\DataSource;
 
 class CommentType extends GraphQLType
 {
-    protected $attributes = [
+    protected array $attributes = [
         'name' => 'comment',
         'description' => 'user make a view for story',
     ];
@@ -41,6 +41,7 @@ class CommentType extends GraphQLType
         if ($comment->isAnonymous) {
             return null;
         }
+
         return DataSource::findUser($comment->authorId);
     }
 
@@ -49,6 +50,7 @@ class CommentType extends GraphQLType
         if ($comment->parentId) {
             return DataSource::findComment($comment->parentId);
         }
+
         return null;
     }
 

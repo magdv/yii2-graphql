@@ -17,7 +17,7 @@ use yiiunit\extensions\graphql\objects\types\UserType;
 
 class UpdateUserPwdMutation extends GraphQLMutation
 {
-    protected $attributes = [
+    protected array $attributes = [
         'name' => 'updateUserPwd'
     ];
 
@@ -45,6 +45,7 @@ class UpdateUserPwdMutation extends GraphQLMutation
         if ($args['id'] == 'qsli@google.com') {
             $args['id'] = 1;
         }
+
         $user = DataSource::findUser($args['id']);
 
         if (!$user) {

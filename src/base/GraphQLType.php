@@ -21,7 +21,7 @@ use yii\graphql\GraphQL;
  */
 class GraphQLType extends GraphQLModel
 {
-    protected $inputObject = false;
+    protected bool $inputObject = false;
 
     public function fields()
     {
@@ -47,10 +47,7 @@ class GraphQLType extends GraphQLModel
             return $field['resolve'];
         } elseif (method_exists($this, $resolveMethod)) {
             $resolver = [$this, $resolveMethod];
-            return function () use ($resolver) {
-                $args = func_get_args();
-                return $resolver(...$args);
-            };
+            return static fn(...$args) => $resolver(...$args);
         }
 
         return null;
@@ -58,8 +55,6 @@ class GraphQLType extends GraphQLModel
 
     /**
      * override method,when transfer to array,it return GraphQL description
-     * @param array $fields
-     * @param array $expand
      * @param bool $recursive
      * @return array
      */
@@ -101,10 +96,12 @@ class GraphQLType extends GraphQLModel
                     'type' => $field
                 ];
             }
+
             $resolver = $this->getFieldResolver($name, $field);
             if ($resolver) {
                 $field['resolve'] = $resolver;
             }
+
             $allFields[$name] = $field;
         }
 
@@ -122,14 +119,12 @@ class GraphQLType extends GraphQLModel
         $attributes = array_merge(
             $this->attributes,
             [
-                'fields' => function () {
-                    return $this->getFields();
-                }
+                'fields' => fn() => $this->getFields()
             ]
         );
 
         $interfaces = $this->interfaces();
-        if (sizeof($interfaces)) {
+        if (count($interfaces) !== 0) {
             $attributes['interfaces'] = $interfaces;
         }
 
@@ -146,6 +141,7 @@ class GraphQLType extends GraphQLModel
         if ($this->inputObject) {
             return new InputObjectType($this->toArray());
         }
+
         return new ObjectType($this->toArray());
     }
 }

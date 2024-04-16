@@ -9,10 +9,7 @@ use yii\web\Controller;
 
 class GraphQLActionTest extends TestCase
 {
-    /**
-     * @var DefaultController
-     */
-    private $controller;
+    private \yiiunit\extensions\graphql\DefaultController $controller;
 
     protected function setUp(): void
     {
@@ -22,7 +19,7 @@ class GraphQLActionTest extends TestCase
     }
 
 
-    function testAction()
+    public function testAction()
     {
         $_GET = [
             'query' => $this->queries['hello'],
@@ -32,7 +29,7 @@ class GraphQLActionTest extends TestCase
         $this->assertNotEmpty($ret);
     }
 
-    function testRunError()
+    public function testRunError()
     {
         $_GET = [
             'query' => 'query error{error}',
@@ -45,7 +42,7 @@ class GraphQLActionTest extends TestCase
         $this->assertArrayHasKey('errors', $ret);
     }
 
-    function testAuthBehavior()
+    public function testAuthBehavior()
     {
         $_GET = [
             'query' => $this->queries['hello'],
@@ -62,7 +59,7 @@ class GraphQLActionTest extends TestCase
         $this->assertNotEmpty($ret);
     }
 
-    function testAuthBehaviorExcept()
+    public function testAuthBehaviorExcept()
     {
         $_GET = [
             'query' => $this->queries['hello'],
@@ -82,7 +79,7 @@ class GraphQLActionTest extends TestCase
         $this->assertNotEmpty($ret);
     }
 
-    function testIntrospectionQuery()
+    public function testIntrospectionQuery()
     {
         $_GET = [
             'query' => $this->queries['introspectionQuery'],

@@ -15,7 +15,7 @@ use yii\base\Model;
 
 class ValidatorException extends Exception
 {
-    public $formatErrors;
+    public ?array $formatErrors = null;
 
     /**
      * ValidatorException constructor.
@@ -25,7 +25,7 @@ class ValidatorException extends Exception
      */
     public function __construct($model, $code = 0, Throwable $previous = null)
     {
-        parent::__construct("model {$model->formName()} validate false", $code, $previous);
+        parent::__construct(sprintf('model %s validate false', $model->formName()), $code, $previous);
         $this->formatModelErrors($model);
     }
 
