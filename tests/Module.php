@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -7,7 +8,6 @@
  */
 
 namespace yiiunit\extensions\graphql;
-
 
 use GraphQL\Type\Definition\Config;
 use yii\graphql\GraphQLModuleTrait;

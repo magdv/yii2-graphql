@@ -16,7 +16,6 @@ use yiiunit\extensions\graphql\objects\types\ResultItemType;
  */
 class GraphQLTest extends TestCase
 {
-
     /**
      * @var GraphQL
      */
@@ -52,15 +51,21 @@ class GraphQLTest extends TestCase
      */
     public function testSchemaWithSchemaObject()
     {
-        $schemaObject = new Schema([
-            'query' => new ObjectType([
-                'name' => 'Query'
-            ]),
-            'mutation' => new ObjectType([
-                'name' => 'Mutation'
-            ]),
-            'types' => []
-        ]);
+        $schemaObject = new Schema(
+            [
+                'query' => new ObjectType(
+                    [
+                        'name' => 'Query'
+                    ]
+                ),
+                'mutation' => new ObjectType(
+                    [
+                        'name' => 'Mutation'
+                    ]
+                ),
+                'types' => []
+            ]
+        );
         $schema = $this->graphql->buildSchema($schemaObject);
 
         $this->assertGraphQLSchema($schema);
@@ -79,7 +84,6 @@ class GraphQLTest extends TestCase
 
         $typeOther = GraphQL::type('example', true);
         $this->assertTrue($type === $typeOther);
-
     }
 
     public function testUnionType()

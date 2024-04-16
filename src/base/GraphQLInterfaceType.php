@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -18,7 +19,7 @@ class GraphQLInterfaceType extends GraphQLType
             return null;
         }
 
-        $resolver = array($this, 'resolveType');
+        $resolver = [$this, 'resolveType'];
         return function () use ($resolver) {
             $args = func_get_args();
             return $resolver(...$args);

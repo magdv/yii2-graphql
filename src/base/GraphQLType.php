@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -45,7 +46,7 @@ class GraphQLType extends GraphQLModel
         if (is_array($field) && isset($field['resolve'])) {
             return $field['resolve'];
         } elseif (method_exists($this, $resolveMethod)) {
-            $resolver = array($this, $resolveMethod);
+            $resolver = [$this, $resolveMethod];
             return function () use ($resolver) {
                 $args = func_get_args();
                 return $resolver(...$args);
@@ -99,7 +100,6 @@ class GraphQLType extends GraphQLModel
                     'name' => $name,
                     'type' => $field
                 ];
-
             }
             $resolver = $this->getFieldResolver($name, $field);
             if ($resolver) {
@@ -119,11 +119,14 @@ class GraphQLType extends GraphQLModel
      */
     public function getAttributes($name = null, $except = null)
     {
-        $attributes = array_merge($this->attributes, [
-            'fields' => function () {
-                return $this->getFields();
-            }
-        ]);
+        $attributes = array_merge(
+            $this->attributes,
+            [
+                'fields' => function () {
+                    return $this->getFields();
+                }
+            ]
+        );
 
         $interfaces = $this->interfaces();
         if (sizeof($interfaces)) {

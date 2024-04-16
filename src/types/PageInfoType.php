@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -7,7 +8,6 @@
  */
 
 namespace yii\graphql\types;
-
 
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;

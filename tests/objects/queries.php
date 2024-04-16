@@ -1,6 +1,5 @@
 <?php
 
-
 return [
     'introspectionQuery' => "
         query IntrospectionQuery {
@@ -80,11 +79,11 @@ return [
             }
         }
     ",
-    'hello' =>  "
+    'hello' => "
         query hello{hello}
     ",
-      
-    'singleObject' =>  "
+
+    'singleObject' => "
         query user {
             user(id:\"2\") {
                 id
@@ -100,7 +99,7 @@ return [
             }
         }
     ",
-    'multiObject' =>  "
+    'multiObject' => "
         query multiObject {
             user(id: \"2\") {
                 id
@@ -119,7 +118,7 @@ return [
             }
         }
     ",
-    'repeatObject' =>  "
+    'repeatObject' => "
         query repeatObject {
             user(id: \"2\") {
                 id
@@ -132,7 +131,7 @@ return [
             }
         }
     ",
-    'userModel'=>"
+    'userModel' => "
         query userModel{
             userModel(id: \"1001\") {
                 id
@@ -140,7 +139,7 @@ return [
             }
         }
     ",
-    'updateObject' =>  "
+    'updateObject' => "
         mutation updateUserPwd{
             updateUserPwd(id: \"1001\", password: \"123456\") {
                 id,

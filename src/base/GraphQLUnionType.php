@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -12,7 +13,6 @@ use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\UnionType;
 use yii\base\InvalidConfigException;
 use yii\graphql\GraphQL;
-
 
 /**
  * Class GraphQLUnionType for UnionType
@@ -34,7 +34,7 @@ class GraphQLUnionType extends GraphQLType
             throw new InvalidConfigException(get_called_class() . ' must implement resolveType method');
         }
 
-        $resolver = array($this, 'resolveType');
+        $resolver = [$this, 'resolveType'];
         return function () use ($resolver) {
             $args = func_get_args();
             return $resolver(...$args);
@@ -54,13 +54,16 @@ class GraphQLUnionType extends GraphQLType
         if (isset($resolver)) {
             $attributes['resolveType'] = $resolver;
         }
-        $types = array_map(function ($item) {
-            if (is_string($item)) {
-                return GraphQL::type($item);
-            } else {
-                return $item;
-            }
-        }, static::types());
+        $types = array_map(
+            function ($item) {
+                if (is_string($item)) {
+                    return GraphQL::type($item);
+                } else {
+                    return $item;
+                }
+            },
+            static::types()
+        );
 
         $attributes['types'] = $types;
         //TODO support $name and $except??

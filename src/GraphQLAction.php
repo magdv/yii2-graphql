@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -8,12 +9,12 @@
 
 namespace yii\graphql;
 
+use Laminas\Diactoros\ServerRequestFactory;
 use Yii;
 use yii\base\Action;
 use yii\web\Response;
 use yii\base\InvalidParamException;
 use GraphQL\Upload\UploadMiddleware;
-use Zend\Diactoros\ServerRequestFactory;
 
 /**
  * GraphQLAction implements the access method of the graph server and returns the query results in the JSON format
@@ -83,8 +84,8 @@ class GraphQLAction extends Action
                     $parsedBody = $serverRequest->getParsedBody();
 
                     $this->query = $parsedBody['query'] ?? $parsedBody;
-                    $this->variables = $parsedBody['variables']  ?? [];
-                    $this->operationName = $parsedBody['operationName']  ?? null;
+                    $this->variables = $parsedBody['variables'] ?? [];
+                    $this->operationName = $parsedBody['operationName'] ?? null;
                 } else {
                     $this->query = $body['query'] ?? $body;
                     $this->variables = $body['variables'] ?? [];
@@ -150,7 +151,6 @@ class GraphQLAction extends Action
 //            $this->graphQL->assertValid($schema);
 //        }
         $val = $this->graphQL->execute($schema, null, Yii::$app, $this->variables, $this->operationName);
-        $result = $this->graphQL->getResult($val);
-        return $result;
+        return $this->graphQL->getResult($val);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -122,27 +123,35 @@ class GraphQL
             }
         }
         //graqhql的validator要求query必须有
-        $query = $this->getTypeResolution()->objectType($schemaQuery, [
-            'name' => 'Query'
-        ]);
+        $query = $this->getTypeResolution()->objectType(
+            $schemaQuery,
+            [
+                'name' => 'Query'
+            ]
+        );
 
         $mutation = null;
         if (!empty($schemaMutation)) {
-            $mutation = $this->getTypeResolution()->objectType($schemaMutation, [
-                'name' => 'Mutation'
-            ]);
+            $mutation = $this->getTypeResolution()->objectType(
+                $schemaMutation,
+                [
+                    'name' => 'Mutation'
+                ]
+            );
         }
 
         $this->getTypeResolution()->initTypes([$query, $mutation], $schema == null);
 
-        $result = new Schema([
-            'query' => $query,
-            'mutation' => $mutation,
-            'types' => $types,
-            'typeLoader' => function ($name) {
-                return $this->getTypeResolution()->parseType($name, true);
-            }
-        ]);
+        $result = new Schema(
+            [
+                'query' => $query,
+                'mutation' => $mutation,
+                'types' => $types,
+                'typeLoader' => function ($name) {
+                    return $this->getTypeResolution()->parseType($name, true);
+                }
+            ]
+        );
         return $result;
     }
 
@@ -156,7 +165,7 @@ class GraphQL
      * @param string $operationName
      * @return array|Error\InvariantViolation
      */
-    public function query($requestString, $rootValue = null, $contextValue = null, $variableValues = null, $operationName = '')
+    public function query($requestString, $rootValue = null, $contextValue = null, $variableValues = null, $operationName = null)
     {
         $sl = $this->parseRequestQuery($requestString);
         if ($sl === true) {
@@ -180,12 +189,14 @@ class GraphQL
             }
             return $this->parseExecutionResult($executeResult);
         } elseif ($executeResult instanceof Promise) {
-            return $executeResult->then(function (ExecutionResult $executionResult) {
-                if ($this->errorFormatter) {
-                    $executionResult->setErrorFormatter($this->errorFormatter);
+            return $executeResult->then(
+                function (ExecutionResult $executionResult) {
+                    if ($this->errorFormatter) {
+                        $executionResult->setErrorFormatter($this->errorFormatter);
+                    }
+                    return $this->parseExecutionResult($executionResult);
                 }
-                return $this->parseExecutionResult($executionResult);
-            });
+            );
         } else {
             throw new Error\InvariantViolation("Unexpected execution result");
         }
@@ -340,7 +351,7 @@ class GraphQL
      * set error formatter
      * @param Callable $errorFormatter
      */
-    public function setErrorFormatter(Callable $errorFormatter)
+    public function setErrorFormatter(callable $errorFormatter)
     {
         $this->errorFormatter = $errorFormatter;
     }

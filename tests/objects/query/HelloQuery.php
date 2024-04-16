@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -8,7 +9,6 @@
 
 namespace yiiunit\extensions\graphql\objects\query;
 
-
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use yii\graphql\base\GraphQLQuery;
@@ -16,7 +16,7 @@ use yii\graphql\base\GraphQLQuery;
 class HelloQuery extends GraphQLQuery
 {
     protected $attributes = [
-        'name'=>'hello',
+        'name' => 'hello',
     ];
 
     public function type()
@@ -29,6 +29,4 @@ class HelloQuery extends GraphQLQuery
     {
         return 'Your graphql-php endpoint is ready! Use GraphiQL to browse API';
     }
-
-
 }

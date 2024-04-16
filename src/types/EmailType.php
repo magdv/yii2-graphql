@@ -1,4 +1,5 @@
 <?php
+
 namespace yii\graphql\types;
 
 use GraphQL\Error\Error;
@@ -57,7 +58,7 @@ class EmailType extends CustomScalarType
      * @return string
      * @throws Error
      */
-    public function parseLiteral(\GraphQL\Language\AST\Node $valueAST, ?array $variables = NULL)
+    public function parseLiteral(\GraphQL\Language\AST\Node $valueAST, ?array $variables = null)
     {
         // Note: throwing GraphQL\Error\Error vs \UnexpectedValueException to benefit from GraphQL
         // error location in query:

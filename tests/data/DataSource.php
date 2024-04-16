@@ -1,4 +1,5 @@
 <?php
+
 namespace yiiunit\extensions\graphql\data;
 
 /**
@@ -22,30 +23,36 @@ class DataSource
     public static function init()
     {
         self::$users = [
-            '1' => new User([
-                'id' => '1',
-                'email' => 'john@example.com',
-                'email2' => 'john2@example.com',
-                'firstName' => 'John',
-                'lastName' => 'Doe',
-                'password' => '123456',
-            ]),
-            '2' => new User([
-                'id' => '2',
-                'email' => 'jane@example.com',
-                'email2' => 'john2@example.com',
-                'firstName' => 'Jane',
-                'lastName' => 'Doe',
-                'password' => '123456',
-            ]),
-            '3' => new User([
-                'id' => '3',
-                'email' => 'john@example.com',
-                'email2' => 'john2@example.com',
-                'firstName' => 'John',
-                'lastName' => 'Doe',
-                'password' => '123456',
-            ]),
+            '1' => new User(
+                [
+                    'id' => '1',
+                    'email' => 'john@example.com',
+                    'email2' => 'john2@example.com',
+                    'firstName' => 'John',
+                    'lastName' => 'Doe',
+                    'password' => '123456',
+                ]
+            ),
+            '2' => new User(
+                [
+                    'id' => '2',
+                    'email' => 'jane@example.com',
+                    'email2' => 'john2@example.com',
+                    'firstName' => 'Jane',
+                    'lastName' => 'Doe',
+                    'password' => '123456',
+                ]
+            ),
+            '3' => new User(
+                [
+                    'id' => '3',
+                    'email' => 'john@example.com',
+                    'email2' => 'john2@example.com',
+                    'firstName' => 'John',
+                    'lastName' => 'Doe',
+                    'password' => '123456',
+                ]
+            ),
         ];
 
         self::$stories = [
@@ -63,16 +70,16 @@ class DataSource
         self::$comments = [
             // thread #1:
             '100' => new Comment(['id' => '100', 'authorId' => '3', 'storyId' => '1', 'body' => 'Likes']),
-                '110' => new Comment(['id' =>'110', 'authorId' =>'2', 'storyId' => '1', 'body' => 'Reply <b>#1</b>', 'parentId' => '100']),
-                    '111' => new Comment(['id' => '111', 'authorId' => '1', 'storyId' => '1', 'body' => 'Reply #1-1', 'parentId' => '110']),
-                    '112' => new Comment(['id' => '112', 'authorId' => '3', 'storyId' => '1', 'body' => 'Reply #1-2', 'parentId' => '110']),
-                    '113' => new Comment(['id' => '113', 'authorId' => '2', 'storyId' => '1', 'body' => 'Reply #1-3', 'parentId' => '110']),
-                    '114' => new Comment(['id' => '114', 'authorId' => '1', 'storyId' => '1', 'body' => 'Reply #1-4', 'parentId' => '110']),
-                    '115' => new Comment(['id' => '115', 'authorId' => '3', 'storyId' => '1', 'body' => 'Reply #1-5', 'parentId' => '110']),
-                    '116' => new Comment(['id' => '116', 'authorId' => '1', 'storyId' => '1', 'body' => 'Reply #1-6', 'parentId' => '110']),
-                    '117' => new Comment(['id' => '117', 'authorId' => '2', 'storyId' => '1', 'body' => 'Reply #1-7', 'parentId' => '110']),
-                '120' => new Comment(['id' => '120', 'authorId' => '3', 'storyId' => '1', 'body' => 'Reply #2', 'parentId' => '100']),
-                '130' => new Comment(['id' => '130', 'authorId' => '3', 'storyId' => '1', 'body' => 'Reply #3', 'parentId' => '100']),
+            '110' => new Comment(['id' => '110', 'authorId' => '2', 'storyId' => '1', 'body' => 'Reply <b>#1</b>', 'parentId' => '100']),
+            '111' => new Comment(['id' => '111', 'authorId' => '1', 'storyId' => '1', 'body' => 'Reply #1-1', 'parentId' => '110']),
+            '112' => new Comment(['id' => '112', 'authorId' => '3', 'storyId' => '1', 'body' => 'Reply #1-2', 'parentId' => '110']),
+            '113' => new Comment(['id' => '113', 'authorId' => '2', 'storyId' => '1', 'body' => 'Reply #1-3', 'parentId' => '110']),
+            '114' => new Comment(['id' => '114', 'authorId' => '1', 'storyId' => '1', 'body' => 'Reply #1-4', 'parentId' => '110']),
+            '115' => new Comment(['id' => '115', 'authorId' => '3', 'storyId' => '1', 'body' => 'Reply #1-5', 'parentId' => '110']),
+            '116' => new Comment(['id' => '116', 'authorId' => '1', 'storyId' => '1', 'body' => 'Reply #1-6', 'parentId' => '110']),
+            '117' => new Comment(['id' => '117', 'authorId' => '2', 'storyId' => '1', 'body' => 'Reply #1-7', 'parentId' => '110']),
+            '120' => new Comment(['id' => '120', 'authorId' => '3', 'storyId' => '1', 'body' => 'Reply #2', 'parentId' => '100']),
+            '130' => new Comment(['id' => '130', 'authorId' => '3', 'storyId' => '1', 'body' => 'Reply #3', 'parentId' => '100']),
             '200' => new Comment(['id' => '200', 'authorId' => '2', 'storyId' => '1', 'body' => 'Me2']),
             '300' => new Comment(['id' => '300', 'authorId' => '3', 'storyId' => '1', 'body' => 'U2']),
 
@@ -119,9 +126,12 @@ class DataSource
 
     public static function findLastStoryFor($authorId)
     {
-        $storiesFound = array_filter(self::$stories, function(Story $story) use ($authorId) {
-            return $story->authorId == $authorId;
-        });
+        $storiesFound = array_filter(
+            self::$stories,
+            function (Story $story) use ($authorId) {
+                return $story->authorId == $authorId;
+            }
+        );
         return !empty($storiesFound) ? $storiesFound[count($storiesFound) - 1] : null;
     }
 
@@ -129,7 +139,7 @@ class DataSource
     {
         $likes = isset(self::$storyLikes[$storyId]) ? self::$storyLikes[$storyId] : [];
         $result = array_map(
-            function($userId) {
+            function ($userId) {
                 return self::$users[$userId];
             },
             $likes
@@ -145,13 +155,15 @@ class DataSource
 
     public static function getUserPhoto($userId, $size)
     {
-        return new Image([
-            'id' => $userId,
-            'type' => Image::TYPE_USERPIC,
-            'size' => $size,
-            'width' => rand(100, 200),
-            'height' => rand(100, 200)
-        ]);
+        return new Image(
+            [
+                'id' => $userId,
+                'type' => Image::TYPE_USERPIC,
+                'size' => $size,
+                'width' => rand(100, 200),
+                'height' => rand(100, 200)
+            ]
+        );
     }
 
     public static function findLatestStory()
@@ -173,7 +185,7 @@ class DataSource
         $storyComments = array_slice($storyComments, $start, $limit);
 
         return array_map(
-            function($commentId) {
+            function ($commentId) {
                 return self::$comments[$commentId];
             },
             $storyComments
@@ -184,11 +196,11 @@ class DataSource
     {
         $commentReplies = isset(self::$commentReplies[$commentId]) ? self::$commentReplies[$commentId] : [];
 
-        $start = isset($after) ? (int) array_search($afterId, $commentReplies) + 1: 0;
+        $start = isset($after) ? (int) array_search($afterId, $commentReplies) + 1 : 0;
         $commentReplies = array_slice($commentReplies, $start, $limit);
 
         return array_map(
-            function($replyId) {
+            function ($replyId) {
                 return self::$comments[$replyId];
             },
             $commentReplies
@@ -207,6 +219,6 @@ class DataSource
 
     public static function findStoryMentions($storyId)
     {
-        return isset(self::$storyMentions[$storyId]) ? self::$storyMentions[$storyId] :[];
+        return isset(self::$storyMentions[$storyId]) ? self::$storyMentions[$storyId] : [];
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -7,7 +8,6 @@
  */
 
 namespace yiiunit\extensions\graphql\objects\query;
-
 
 use GraphQL\Type\Definition\ResolveInfo;
 use yii\graphql\base\GraphQLQuery;
@@ -18,7 +18,7 @@ use yiiunit\extensions\graphql\objects\types\StoryType;
 class LastStoryPostedQuery extends GraphQLQuery
 {
     protected $attributes = [
-        'description'=>'Returns last story posted for this blog',
+        'description' => 'Returns last story posted for this blog',
     ];
 
     public function type()
@@ -30,6 +30,4 @@ class LastStoryPostedQuery extends GraphQLQuery
     {
         return DataSource::findLatestStory();
     }
-
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -26,5 +27,4 @@ class DefaultController extends Controller
             ]
         ];
     }
-
 }

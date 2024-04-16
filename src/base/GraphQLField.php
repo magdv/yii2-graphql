@@ -2,12 +2,7 @@
 
 namespace yii\graphql\base;
 
-
-use GraphQL\Type\Definition\FieldDefinition;
-use GraphQL\Type\Definition\ResolveInfo;
-use yii\base\Model;
 use yii\graphql\GraphQL;
-use yii\web\Application;
 
 /**
  * GraphQLField类对应于graphql描述文档中的类型系统中每一个节点.如
@@ -42,7 +37,7 @@ class GraphQLField extends GraphQLModel
             return null;
         }
 
-        $resolver = array($this, 'resolve');
+        $resolver = [$this, 'resolve'];
         return function () use ($resolver) {
             $args = func_get_args();
             return $resolver(...$args);
@@ -61,13 +56,16 @@ class GraphQLField extends GraphQLModel
         $attributes = $this->attributes;
         $args = $this->args();
 
-        $attributes = array_merge([
-            'args' => $args
-        ], $attributes);
+        $attributes = array_merge(
+            [
+                'args' => $args
+            ],
+            $attributes
+        );
 
         $type = $this->type();
         if (isset($type)) {
-            if(!is_object($type)){
+            if (!is_object($type)) {
                 $type = GraphQL::type($type);
             }
             $attributes['type'] = $type;

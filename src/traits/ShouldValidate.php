@@ -14,7 +14,6 @@ use yii\helpers\ArrayHelper;
  */
 trait ShouldValidate
 {
-
     protected function getResolver()
     {
         $resolver = parent::getResolver();

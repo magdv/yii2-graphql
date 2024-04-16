@@ -25,8 +25,8 @@ class StoryType extends GraphQLType
     const REPLY = 'REPLY';
 
     protected $attributes = [
-        'name'=>'story',
-        'description'=>'it is a story'
+        'name' => 'story',
+        'description' => 'it is a story'
     ];
 
     public function interfaces()
@@ -37,10 +37,10 @@ class StoryType extends GraphQLType
     public function fields()
     {
         return [
-            'id' => ['type'=>Type::id()],
+            'id' => ['type' => Type::id()],
             'author' => GraphQL::type(UserType::class),
 //            'mentions' => Type::listOf(Types::mention()),
-            'totalCommentCount' => ['type'=>Type::int()],
+            'totalCommentCount' => ['type' => Type::int()],
             'comments' => [
                 'type' => Type::listOf(GraphQL::type(CommentType::class)),
                 'args' => [
@@ -67,19 +67,24 @@ class StoryType extends GraphQLType
             'likedBy' => [
                 'type' => Type::listOf(GraphQL::type(UserType::class)),
             ],
-            'affordances' => ['type'=>Type::listOf(new EnumType([
-                'name' => 'StoryAffordancesEnum',
-                'values' => [
-                    self::EDIT,
-                    self::DELETE,
-                    self::LIKE,
-                    self::UNLIKE,
-                    self::REPLY
-                ]
-            ]))],
-            'hasViewerLiked' => ['type'=>Type::boolean()],
+            'affordances' => ['type' => Type::listOf(
+                new EnumType(
+                    [
+                        'name' => 'StoryAffordancesEnum',
+                        'values' => [
+                            self::EDIT,
+                            self::DELETE,
+                            self::LIKE,
+                            self::UNLIKE,
+                            self::REPLY
+                        ]
+                    ]
+                )
+            )
+            ],
+            'hasViewerLiked' => ['type' => Type::boolean()],
 
-            'body'=>HtmlField::class,
+            'body' => HtmlField::class,
         ];
     }
 

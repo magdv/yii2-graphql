@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -74,6 +75,4 @@ class GraphQLModel extends Model
     {
         unset($this->attributes[$name]);
     }
-
-
 }

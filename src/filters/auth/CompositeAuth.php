@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -108,6 +109,4 @@ class CompositeAuth extends \yii\filters\auth\AuthMethod
             return parent::isActive($action);
         }
     }
-
-
 }

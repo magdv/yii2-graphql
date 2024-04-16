@@ -1,4 +1,5 @@
 <?php
+
 namespace yii\graphql\queries;
 
 use GraphQL\Type\Definition\ResolveInfo;

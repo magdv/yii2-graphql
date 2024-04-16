@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -7,7 +8,6 @@
  */
 
 namespace yii\graphql\exceptions;
-
 
 use Throwable;
 use yii\base\Exception;

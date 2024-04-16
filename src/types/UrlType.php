@@ -1,4 +1,5 @@
 <?php
+
 namespace yii\graphql\types;
 
 use GraphQL\Error\Error;
@@ -6,6 +7,7 @@ use GraphQL\Language\AST\Node;
 use GraphQL\Language\AST\StringValueNode;
 use GraphQL\Type\Definition\ScalarType;
 use GraphQL\Utils\Utils;
+use UnexpectedValueException;
 
 class UrlType extends ScalarType
 {
@@ -41,7 +43,7 @@ class UrlType extends ScalarType
     public function parseValue($value)
     {
         if (!is_string($value) || !filter_var($value, FILTER_VALIDATE_URL)) { // quite naive, but after all this is example
-            throw new \UnexpectedValueException("Cannot represent value as URL: " . Utils::printSafe($value));
+            throw new UnexpectedValueException("Cannot represent value as URL: " . Utils::printSafe($value));
         }
         return $value;
     }
@@ -49,11 +51,11 @@ class UrlType extends ScalarType
     /**
      * Parses an externally provided literal value to use as an input (e.g. in Query AST)
      *
-     * @param $ast GraphQL\Language\AST\Node
+     * @param $ast Node
      * @return null|string
      * @throws Error
      */
-    public function parseLiteral(\GraphQL\Language\AST\Node $ast, ?array $variables = NULL)
+    public function parseLiteral(Node $ast, ?array $variables = null)
     {
         // Note: throwing GraphQL\Error\Error vs \UnexpectedValueException to benefit from GraphQL
         // error location in query:

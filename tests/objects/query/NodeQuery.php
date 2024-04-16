@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: tsingsun
@@ -7,7 +8,6 @@
  */
 
 namespace yiiunit\extensions\graphql\objects\query;
-
 
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
@@ -41,8 +41,5 @@ class NodeQuery extends GraphQLQuery
         } elseif ($args['type'] == 'story') {
             return DataSource::findStory($args['id']);
         }
-
     }
-
-
 }

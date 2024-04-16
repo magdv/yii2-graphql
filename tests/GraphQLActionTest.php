@@ -52,9 +52,12 @@ class GraphQLActionTest extends TestCase
             'access-token' => 'testtoken',
         ];
         $controller = $this->controller;
-        $controller->attachBehavior('authenticator', [
-            'class' => QueryParamAuth::class
-        ]);
+        $controller->attachBehavior(
+            'authenticator',
+            [
+                'class' => QueryParamAuth::class
+            ]
+        );
         $ret = $controller->runAction('index');
         $this->assertNotEmpty($ret);
     }
@@ -65,13 +68,16 @@ class GraphQLActionTest extends TestCase
             'query' => $this->queries['hello'],
         ];
         $controller = $this->controller;
-        $controller->attachBehavior('authenticator', [
-            'class' => CompositeAuth::class,
-            'authMethods' => [
-                \yii\filters\auth\QueryParamAuth::class,
-            ],
-            'except' => ['hello'],
-        ]);
+        $controller->attachBehavior(
+            'authenticator',
+            [
+                'class' => CompositeAuth::class,
+                'authMethods' => [
+                    \yii\filters\auth\QueryParamAuth::class,
+                ],
+                'except' => ['hello'],
+            ]
+        );
         $ret = $controller->runAction('index');
         $this->assertNotEmpty($ret);
     }
@@ -82,13 +88,16 @@ class GraphQLActionTest extends TestCase
             'query' => $this->queries['introspectionQuery'],
         ];
         $controller = $this->controller;
-        $controller->attachBehavior('authenticator', [
-            'class' => CompositeAuth::class,
-            'authMethods' => [
-                \yii\filters\auth\QueryParamAuth::class,
-            ],
-            'except' => ['__schema'],
-        ]);
+        $controller->attachBehavior(
+            'authenticator',
+            [
+                'class' => CompositeAuth::class,
+                'authMethods' => [
+                    \yii\filters\auth\QueryParamAuth::class,
+                ],
+                'except' => ['__schema'],
+            ]
+        );
         $ret = $controller->runAction('index');
         $this->assertNotEmpty($ret);
     }
