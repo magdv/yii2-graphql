@@ -1,7 +1,9 @@
-FROM php:8.0-cli-alpine
+FROM php:8.3-cli-alpine
 
-ENV XDEBUG_VERSION 3.1.2
+ENV XDEBUG_VERSION 3.3.1
 RUN apk update && apk upgrade
+
+RUN apk add --update linux-headers
 
 RUN apk add --no-cache bash coreutils git \
     && git clone --branch $XDEBUG_VERSION --depth 1 https://github.com/xdebug/xdebug.git /usr/src/php/ext/xdebug \

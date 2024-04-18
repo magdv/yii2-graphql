@@ -19,7 +19,7 @@
     "php": "^8.0",
     "webonyx/graphql-php": "^14.11",
     "ecodev/graphql-upload": "^6.1",
-    "laminas/laminas-diactoros": "3",
+    "laminas/laminas-diactoros": "^3.2",
     "yiisoft/yii2": "^2.0.47"
   },
   "require-dev": {
